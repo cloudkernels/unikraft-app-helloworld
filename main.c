@@ -5,6 +5,29 @@
 #include <uk/config.h>
 #endif /* __Unikraft__ */
 
+const char *getBuildArch() { //Get current architecture, detectx nearly every architecture. Coded by Freak
+        #if defined(__x86_64__) || defined(_M_X64)
+        return "x86_64";
+        #elif defined(__ARM_ARCH_7__) || defined(__ARM_ARCH_7A__) || defined(__ARM_ARCH_7R__) || defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7S__)
+        return "ARM7";
+        #elif defined(__ARM_ARCH_7A__) || defined(__ARM_ARCH_7R__) || defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7S__)
+        return "ARM7A";
+        #elif defined(__ARM_ARCH_7R__) || defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7S__)
+        return "ARM7R";
+        #elif defined(__ARM_ARCH_7M__)
+        return "ARM7M";
+        #elif defined(__ARM_ARCH_7S__)
+        return "ARM7S";
+        #elif defined(__aarch64__) || defined(_M_ARM64)
+        return "ARM64";
+        #elif defined(__PPC64__) || defined(__ppc64__) || defined(_ARCH_PPC64)
+        return "POWERPC64";
+        #else
+        return "UNKNOWN";
+        #endif
+}
+
+
 #if CONFIG_APPHELLOWORLD_SPINNER
 #include <time.h>
 #include <errno.h>
@@ -29,7 +52,7 @@ int main(int argc, char *argv[])
 	int i;
 #endif
 
-	printf("Hello world!\n");
+	printf("Hello world from %s\n", getBuildArch());
 
 #if CONFIG_APPHELLOWORLD_PRINTARGS
 	printf("Arguments: ");
